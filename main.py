@@ -26,16 +26,15 @@ def main(page: ft.Page):
 
     def ctext(s):
         return ft.Container(
-                ft.Text(s, size = 25),
+                ft.Text(s, size = 25, color=ft.colors.WHITE),
                 alignment=ft.alignment.center,
                 )
 
-    button = ft.ElevatedButton(text="amog",
-                               style=ft.ButtonStyle(#shape=ft.CircleBorder(),
-                                                    padding=30,
-                                                    bgcolor=ft.colors.GREEN, ),
-                               )
+    button = ft.FloatingActionButton(content = ft.Image(src = "images/Among Us.svg", color=ft.colors.WHITE),
+                               shape=ft.CircleBorder(),
+                                bgcolor=ft.colors.GREEN,
 
+                               )
     def toggle(e):
         global x
         global button
@@ -43,15 +42,15 @@ def main(page: ft.Page):
         print(x)
 
         if x:
-            button.style.bgcolor = ft.colors.RED
+            button.bgcolor = ft.colors.RED
         else:
-            button.style.bgcolor = ft.colors.GREEN
+            button.bgcolor = ft.colors.GREEN
 
         page.update()
 
     button.on_click = toggle
 
-    c = ft.AnimatedSwitcher(
+    screentext = ft.AnimatedSwitcher(
         ctext(""),
         transition=ft.AnimatedSwitcherTransition.SCALE,
         duration=500,
@@ -60,21 +59,66 @@ def main(page: ft.Page):
         switch_out_curve=ft.AnimationCurve.EASE_IN_OUT_SINE,
     )
 
+    images = ft.AnimatedSwitcher(
+        ft.Image(),
+        transition=ft.AnimatedSwitcherTransition.SCALE,
+        duration=500,
+        reverse_duration=100,
+        switch_in_curve=ft.AnimationCurve.EASE_IN_OUT_SINE,
+        switch_out_curve=ft.AnimationCurve.EASE_IN_OUT_SINE,
+    )
+
+    '''page.add(
+        ft.Stack([images,
+            ft.Column([
+            screentext,
+            ft.Row(
+                controls=[button],
+                alignment=ft.MainAxisAlignment.CENTER,
+            ),])
+        ]
+        )
+    )'''
+
     page.add(
-        c,
-        ft.ResponsiveRow(
-            controls=[button],
-            alignment=ft.MainAxisAlignment.CENTER,
-        ),
+        ft.Container(
+            ft.Stack(
+                [
+                    ft.Container(
+                        images,
+                        left=0,
+                        right=0,
+                        top=0,
+                        bottom=0,
+                    ),
+                    ft.Container(
+                        ft.Column(
+                            [
+                                screentext,
+                                ft.Row([button], alignment=ft.MainAxisAlignment.CENTER),
+                            ]
+                        )
+                    ),
+                ]
+            )
+        )
     )
 
     while True:
         if x:
+            images.content = ft.Image(
+                    src="https://i.scdn.co/image/ab67616d0000b273cfa5f6193f930ec445785be2",
+                    repeat=ft.ImageRepeat.NO_REPEAT,
+                    border_radius=ft.border_radius.all(10),
+                    width=page.width,
+                    height=page.height,
+                )
             t = detector()
-            c.content = ctext(t)
+            screentext.content = ctext(t)
             page.update()
         else:
-            c.content = ctext("")
+            screentext.content = ft.Text("")
+            images.content = ft.Text("")
             page.update()
 
 ft.app(target=main)
