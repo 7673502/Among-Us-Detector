@@ -4,11 +4,14 @@ import flet as ft
 import _thread
 
 x = False
+button = None
 
 def main(page: ft.Page):
     page.title = "Among Us Detector"
     page.bgcolor = ft.colors.BLACK
     page.vertical_alignment = ft.MainAxisAlignment.CENTER
+
+    global button
 
     def detector():
         for phrase in LiveSpeech():
@@ -27,10 +30,26 @@ def main(page: ft.Page):
                 alignment=ft.alignment.center,
                 )
 
+    button = ft.ElevatedButton(text="amog",
+                               style=ft.ButtonStyle(#shape=ft.CircleBorder(),
+                                                    padding=30,
+                                                    bgcolor=ft.colors.GREEN, ),
+                               )
+
     def toggle(e):
         global x
+        global button
         x = not x
         print(x)
+
+        if x:
+            button.style.bgcolor = ft.colors.RED
+        else:
+            button.style.bgcolor = ft.colors.GREEN
+
+        page.update()
+
+    button.on_click = toggle
 
     c = ft.AnimatedSwitcher(
         ctext(""),
@@ -40,13 +59,6 @@ def main(page: ft.Page):
         switch_in_curve=ft.AnimationCurve.EASE_IN_OUT_SINE,
         switch_out_curve=ft.AnimationCurve.EASE_IN_OUT_SINE,
     )
-
-    button = ft.ElevatedButton(text="amog",
-                                      on_click=toggle,
-                                      style=ft.ButtonStyle(shape=ft.CircleBorder(),
-                                                           padding=30,
-                                                           bgcolor=ft.colors.RED,),
-                                      )
 
     page.add(
         c,
@@ -60,11 +72,9 @@ def main(page: ft.Page):
         if x:
             t = detector()
             c.content = ctext(t)
-            button.style.bgcolor = ft.colors.RED_900
             page.update()
         else:
             c.content = ctext("")
-            button.style.bgcolor = ft.colors.RED
             page.update()
 
 ft.app(target=main)
