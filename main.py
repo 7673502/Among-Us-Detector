@@ -27,6 +27,8 @@ def main(page: ft.Page):
                 _thread.start_new_thread(playsound, ("audio/role_reveal.mp3",))
             elif find_multiple(str(phrase), ["emergency", "meeting", "suspic"]):
                 _thread.start_new_thread(playsound, ("audio/emergency_meeting.mp3",))
+            elif find_multiple(str(phrase), ["among drip"]):
+                _thread.start_new_thread(playsound, ("audio/among_drip.mp3",))
             elif find_multiple(str(phrase), ["among"]):
                 _thread.start_new_thread(playsound, ("audio/amogus.mp3",))
             return str(phrase)
@@ -53,7 +55,7 @@ def main(page: ft.Page):
     )
 
     images = ft.AnimatedSwitcher(
-        ft.Image(),
+        ctext(""),
         transition=ft.AnimatedSwitcherTransition.FADE,
         duration=500,
         reverse_duration=500,
@@ -107,6 +109,16 @@ def main(page: ft.Page):
             if find_multiple(t, ["imposter", "suspic"]):
                 images.content = ft.Image(
                     src="https://github.com/7673502/Among-Us-Detector/blob/main/images/impostersus.jpeg?raw=true",
+                    repeat=ft.ImageRepeat.NO_REPEAT,
+                    border_radius=ft.border_radius.all(10),
+                    width=page.width,
+                    height=page.height,
+                )
+                page.update()
+                time.sleep(2)
+            elif find_multiple(t, ["emergency", "meeting"]):
+                images.content = ft.Image(
+                    src="https://github.com/7673502/Among-Us-Detector/blob/main/images/emergencymeeting.png?raw=true",
                     repeat=ft.ImageRepeat.NO_REPEAT,
                     border_radius=ft.border_radius.all(10),
                     width=page.width,
