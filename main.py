@@ -11,6 +11,9 @@ def main(page: ft.Page):
     page.title = "Among Us Detector"
     page.bgcolor = ft.colors.BLACK
     page.vertical_alignment = ft.MainAxisAlignment.CENTER
+    page.fonts = {
+        "JetBrains Mono" : "https://github.com/7673502/Among-Us-Detector/blob/main/font/JetBrainsMono-Regular.ttf?raw=true"
+    }
 
     global button
 
@@ -23,7 +26,7 @@ def main(page: ft.Page):
     def detector():
         for phrase in LiveSpeech():
             print(phrase)
-            if find_multiple(str(phrase), ["imposter", "crew mate"]):
+            if find_multiple(str(phrase), ["imposter", "crew mate", "impostor"]):
                 _thread.start_new_thread(playsound, ("audio/role_reveal.mp3",))
             elif find_multiple(str(phrase), ["emergency", "meeting", "suspic"]):
                 _thread.start_new_thread(playsound, ("audio/emergency_meeting.mp3",))
@@ -35,9 +38,11 @@ def main(page: ft.Page):
 
     def ctext(s):
         return ft.Container(
-                ft.Text(s, size = 25, color=ft.colors.WHITE),
-                alignment=ft.alignment.center,
-                )
+            ft.Text(s,
+                    size = 25,
+                    color=ft.colors.WHITE),
+            alignment=ft.alignment.center,
+        )
 
     button = ft.FloatingActionButton(
         icon=ft.icons.MIC_OFF_ROUNDED,
@@ -106,7 +111,7 @@ def main(page: ft.Page):
         if x:
             t = detector()
             screentext.content = ctext(t)
-            if find_multiple(t, ["imposter", "suspic"]):
+            if find_multiple(t, ["imposter", "suspic", "impostor"]):
                 images.content = ft.Image(
                     src="https://github.com/7673502/Among-Us-Detector/blob/main/images/impostersus.jpeg?raw=true",
                     repeat=ft.ImageRepeat.NO_REPEAT,
