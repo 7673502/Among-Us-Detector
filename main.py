@@ -30,11 +30,11 @@ def main(page: ft.Page):
                 alignment=ft.alignment.center,
                 )
 
-    button = ft.FloatingActionButton(content = ft.Image(src = "images/Among Us.svg", color=ft.colors.WHITE),
-                               shape=ft.CircleBorder(),
-                                bgcolor=ft.colors.GREEN,
-
-                               )
+    button = ft.FloatingActionButton(
+        icon=ft.icons.MIC_OFF_ROUNDED,
+        shape=ft.CircleBorder(),
+        bgcolor=ft.colors.RED,
+    )
 
     screentext = ft.AnimatedSwitcher(
         ctext(""),
@@ -61,9 +61,11 @@ def main(page: ft.Page):
         print(x)
 
         if x:
-            button.bgcolor = ft.colors.RED
-        else:
             button.bgcolor = ft.colors.GREEN
+            button.icon = ft.icons.MIC_ROUNDED
+        else:
+            button.bgcolor = ft.colors.RED
+            button.icon = ft.icons.MIC_OFF_ROUNDED
             screentext.content = ctext("")
             images.content = ctext("")
 
@@ -73,22 +75,18 @@ def main(page: ft.Page):
 
     page.add(
         ft.Container(
-            ft.Stack(
+            ft.Column(
                 [
                     ft.Container(
                         images,
-                        left=0,
-                        right=0,
-                        top=0,
-                        bottom=0,
                     ),
                     ft.Container(
                         ft.Column(
                             [
                                 screentext,
-                                ft.Row([button], alignment=ft.MainAxisAlignment.CENTER),
+                                ft.ResponsiveRow([button], alignment=ft.MainAxisAlignment.CENTER),
                             ]
-                        )
+                        ),
                     ),
                 ]
             )
