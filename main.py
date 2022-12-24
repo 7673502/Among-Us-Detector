@@ -35,20 +35,6 @@ def main(page: ft.Page):
                                 bgcolor=ft.colors.GREEN,
 
                                )
-    def toggle(e):
-        global x
-        global button
-        x = not x
-        print(x)
-
-        if x:
-            button.bgcolor = ft.colors.RED
-        else:
-            button.bgcolor = ft.colors.GREEN
-
-        page.update()
-
-    button.on_click = toggle
 
     screentext = ft.AnimatedSwitcher(
         ctext(""),
@@ -68,17 +54,22 @@ def main(page: ft.Page):
         switch_out_curve=ft.AnimationCurve.EASE_IN_OUT_SINE,
     )
 
-    '''page.add(
-        ft.Stack([images,
-            ft.Column([
-            screentext,
-            ft.Row(
-                controls=[button],
-                alignment=ft.MainAxisAlignment.CENTER,
-            ),])
-        ]
-        )
-    )'''
+    def toggle(e):
+        global x
+        global button
+        x = not x
+        print(x)
+
+        if x:
+            button.bgcolor = ft.colors.RED
+        else:
+            button.bgcolor = ft.colors.GREEN
+            screentext.content = ctext("")
+            images.content = ctext("")
+
+        page.update()
+
+    button.on_click = toggle
 
     page.add(
         ft.Container(
@@ -106,15 +97,18 @@ def main(page: ft.Page):
 
     while True:
         if x:
-            images.content = ft.Image(
+            t = detector()
+            screentext.content = ctext(t)
+            if t == "imposter":
+                images.content = ft.Image(
                     src="https://i.scdn.co/image/ab67616d0000b273cfa5f6193f930ec445785be2",
                     repeat=ft.ImageRepeat.NO_REPEAT,
                     border_radius=ft.border_radius.all(10),
                     width=page.width,
                     height=page.height,
                 )
-            t = detector()
-            screentext.content = ctext(t)
+            else:
+                images.content = ft.Text("")
             page.update()
         else:
             screentext.content = ft.Text("")
