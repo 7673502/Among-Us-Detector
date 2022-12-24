@@ -2,6 +2,7 @@ from pocketsphinx import LiveSpeech
 from playsound import playsound
 import flet as ft
 import _thread
+import time
 
 x = False
 button = None
@@ -13,14 +14,20 @@ def main(page: ft.Page):
 
     global button
 
+    def find_multiple(text, keys):
+        for i in keys:
+            if text.find(i) != -1:
+                return True
+        return False
+
     def detector():
         for phrase in LiveSpeech():
             print(phrase)
-            if str(phrase).find("imposter") != -1 or str(phrase).find("crew mate") != -1:
+            if find_multiple(str(phrase), ["imposter", "crew mate"]):
                 _thread.start_new_thread(playsound, ("audio/role_reveal.mp3",))
-            elif str(phrase).find("emergency") != -1 or str(phrase).find("meeting") != -1:
+            elif find_multiple(str(phrase), ["emergency", "meeting", "suspic"]):
                 _thread.start_new_thread(playsound, ("audio/emergency_meeting.mp3",))
-            elif str(phrase).find("among") != -1:
+            elif find_multiple(str(phrase), ["among"]):
                 _thread.start_new_thread(playsound, ("audio/amogus.mp3",))
             return str(phrase)
 
@@ -47,9 +54,9 @@ def main(page: ft.Page):
 
     images = ft.AnimatedSwitcher(
         ft.Image(),
-        transition=ft.AnimatedSwitcherTransition.SCALE,
+        transition=ft.AnimatedSwitcherTransition.FADE,
         duration=500,
-        reverse_duration=100,
+        reverse_duration=500,
         switch_in_curve=ft.AnimationCurve.EASE_IN_OUT_SINE,
         switch_out_curve=ft.AnimationCurve.EASE_IN_OUT_SINE,
     )
@@ -97,16 +104,17 @@ def main(page: ft.Page):
         if x:
             t = detector()
             screentext.content = ctext(t)
-            if t == "imposter":
+            if find_multiple(t, ["imposter", "suspic"]):
                 images.content = ft.Image(
-                    src="https://i.scdn.co/image/ab67616d0000b273cfa5f6193f930ec445785be2",
+                    src="https://github.com/7673502/Among-Us-Detector/blob/main/images/impostersus.jpeg?raw=true",
                     repeat=ft.ImageRepeat.NO_REPEAT,
                     border_radius=ft.border_radius.all(10),
                     width=page.width,
                     height=page.height,
                 )
-            else:
-                images.content = ft.Text("")
+                page.update()
+                time.sleep(2)
+            images.content = ft.Text("")
             page.update()
         else:
             screentext.content = ft.Text("")
