@@ -126,6 +126,16 @@ def main(page: ft.Page):
                 )
                 page.update()
                 time.sleep(2)
+            elif find_multiple(t, ["among", "crew mate"]):
+                images.content = ft.Image(
+                    src="https://github.com/7673502/Among-Us-Detector/blob/main/images/redcrewmate.png?raw=true",
+                    repeat=ft.ImageRepeat.NO_REPEAT,
+                    border_radius=ft.border_radius.all(10),
+                    width=page.width,
+                    height=page.height,
+                )
+                page.update()
+                time.sleep(2)
             images.content = ft.Text("")
             page.update()
         else:
