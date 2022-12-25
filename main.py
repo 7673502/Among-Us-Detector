@@ -15,6 +15,8 @@ def main(page: ft.Page):
         "JetBrains Mono" : "https://github.com/7673502/Among-Us-Detector/blob/main/font/JetBrainsMono-Regular.ttf?raw=true"
     }
 
+    page.theme = ft.Theme(font_family = "JetBrains Mono")
+
     global button
 
     def find_multiple(text, keys):
@@ -45,7 +47,7 @@ def main(page: ft.Page):
         )
 
     button = ft.FloatingActionButton(
-        icon=ft.icons.MIC_OFF_ROUNDED,
+        content=ft.Icon(name=ft.icons.MIC_OFF_ROUNDED, color=ft.colors.WHITE),
         shape=ft.CircleBorder(),
         bgcolor=ft.colors.RED,
     )
@@ -76,10 +78,10 @@ def main(page: ft.Page):
 
         if x:
             button.bgcolor = ft.colors.GREEN
-            button.icon = ft.icons.MIC_ROUNDED
+            button.content=ft.Icon(name=ft.icons.MIC_ROUNDED, color=ft.colors.WHITE)
         else:
             button.bgcolor = ft.colors.RED
-            button.icon = ft.icons.MIC_OFF_ROUNDED
+            button.content=ft.Icon(name=ft.icons.MIC_OFF_ROUNDED, color=ft.colors.WHITE)
             screentext.content = ctext("")
             images.content = ctext("")
 
